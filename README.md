@@ -102,7 +102,6 @@ Runs via command:
 php artisan report:low-stock
 ```
 
-Schedule this in `App\Console\Kernel.php`:
 ```php
 $schedule->command('report:low-stock')->dailyAt('08:00');
 ```
@@ -149,33 +148,3 @@ Open `/api/documentation` after running:
 ```bash
 php artisan l5-swagger:generate
 ```
-Or host a Swagger YAML/JSON file.
-
----
-
-## 📮 Postman Collection
-A complete Postman collection is available in the `postman/` folder.
-
----
-
-## 🔁 Optional Improvements
-- [ ] Add Caching to `ProductService`
-- [ ] Add Slack Notifications for Low Stock
-- [ ] Add RBAC Roles + Middleware
-- [ ] Add Audit Logs via Events
-
----
-
-## 👨‍💻 Developer Notes
-- Repository Interfaces are bound in `AppServiceProvider`
-- All services injected via constructor
-- Form validation should be extracted into FormRequests (recommended)
-
----
-
-## 📞 Contact
-Developed by Ayat Khalid — [your email or GitHub here]
-
----
-
-> ✅ Production-ready, scalable backend API for warehouse management with clean structure, auto tests, and extendability.
