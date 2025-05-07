@@ -1,61 +1,181 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 📦 Multi-Warehouse Inventory Management API
 
-## About Laravel
+A Laravel 12 RESTful API backend for managing products, warehouses, suppliers, and inventory across multiple locations. Includes authentication, low-stock reporting, product transfers, and a clean architecture using Repository and Service layers.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- JWT Authentication (Login, Register, Logout, Me)
+- Role-ready structure (RBAC optional)
+- Product, Supplier, Country, Warehouse CRUD
+- Inventory CRUD with transfer between warehouses
+- Global Inventory View
+- Inventory Transactions (IN/OUT)
+- Low-Stock Report (API + Daily Email)
+- Clean Architecture: Service + Repository Pattern
+- Swagger API Documentation
+- Fully testable: Unit Tests + `.env.testing`
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠 Tech Stack
+- Laravel 12
+- MySQL
+- PHPUnit
+- JWTAuth (Tymon)
+- Swagger UI (via annotations or YAML)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📁 Installation
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/your-username/multi-warehouse-api.git
+cd multi-warehouse-api
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Edit `.env` to match your DB:
+```env
+DB_DATABASE=multi_warehouse_api
+DB_USERNAME=root
+DB_PASSWORD=yourpassword
+```
 
-### Premium Partners
+Then:
+```bash
+php artisan migrate --seed
+php artisan jwt:secret
+php artisan serve
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🔐 Authentication (JWT)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Endpoint      | Method | Description      |
+|---------------|--------|------------------|
+| /api/register | POST   | User Registration|
+| /api/login    | POST   | User Login       |
+| /api/me       | GET    | Get current user |
+| /api/logout   | POST   | Logout JWT Token |
 
-## Code of Conduct
+Use the returned token in Authorization headers:
+```
+Authorization: Bearer {token}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 📦 Inventory Endpoints
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Endpoint                                  | Method | Description                          |
+|-------------------------------------------|--------|--------------------------------------|
+| /api/inventory                            | GET    | List all inventory                   |
+| /api/inventory                            | POST   | Create inventory                     |
+| /api/inventory/{id}                       | GET    | Show inventory                       |
+| /api/inventory/{id}                       | PUT    | Update inventory                     |
+| /api/inventory/{id}                       | DELETE | Delete inventory                     |
+| /api/inventory/transfer                   | POST   | Transfer between warehouses          |
+| /api/inventory/global-view                | GET    | Global inventory summary             |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📊 Reporting
+
+### Low Stock
+- **GET** `/api/reports/low-stock` — Return products below minimum stock
+
+### Transaction Report
+- **GET** `/api/transactions/report?from=2024-01-01&to=2024-02-01` — Filters by date/product/warehouse/type
+
+---
+
+## 📨 Daily Low Stock Email
+
+Runs via command:
+```bash
+php artisan report:low-stock
+```
+
+Schedule this in `App\Console\Kernel.php`:
+```php
+$schedule->command('report:low-stock')->dailyAt('08:00');
+```
+
+Set your email config in `.env`:
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your@gmail.com
+MAIL_PASSWORD=your-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your@gmail.com
+MAIL_FROM_NAME="Warehouse System"
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+cp .env .env.testing
+php artisan key:generate --env=testing
+php artisan migrate:fresh --env=testing
+php artisan test
+```
+
+To run a specific test:
+```bash
+php artisan test --filter=CountryServiceTest
+```
+
+Tested modules:
+- AuthService
+- CountryService
+- WarehouseService
+- InventoryService
+
+---
+
+## 🧾 Swagger API Docs
+
+Open `/api/documentation` after running:
+```bash
+php artisan l5-swagger:generate
+```
+Or host a Swagger YAML/JSON file.
+
+---
+
+## 📮 Postman Collection
+A complete Postman collection is available in the `postman/` folder.
+
+---
+
+## 🔁 Optional Improvements
+- [ ] Add Caching to `ProductService`
+- [ ] Add Slack Notifications for Low Stock
+- [ ] Add RBAC Roles + Middleware
+- [ ] Add Audit Logs via Events
+
+---
+
+## 👨‍💻 Developer Notes
+- Repository Interfaces are bound in `AppServiceProvider`
+- All services injected via constructor
+- Form validation should be extracted into FormRequests (recommended)
+
+---
+
+## 📞 Contact
+Developed by Ayat Khalid — [your email or GitHub here]
+
+---
+
+> ✅ Production-ready, scalable backend API for warehouse management with clean structure, auto tests, and extendability.
