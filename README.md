@@ -70,11 +70,44 @@ Authorization: Bearer {token}
 ```
 
 ---
+## 📚 All API Endpoints
 
-## 📦 Inventory Endpoints
-
-| Endpoint                                  | Method | Description                          |
-|-------------------------------------------|--------|--------------------------------------|
+| Method | Endpoint                                  | Description                          |
+|--------|-------------------------------------------|--------------------------------------|
+| POST   | /api/register                             | Register a new user                  |
+| POST   | /api/login                                | Login user and get JWT token         |
+| GET    | /api/me                                   | Get authenticated user info          |
+| POST   | /api/logout                               | Logout user (invalidate token)       |
+| GET    | /api/countries                            | List all countries                   |
+| POST   | /api/countries                            | Create new country                   |
+| GET    | /api/countries/{id}                       | Get country details                  |
+| PUT    | /api/countries/{id}                       | Update country                       |
+| DELETE | /api/countries/{id}                       | Delete country                       |
+| GET    | /api/warehouses                           | List all warehouses                  |
+| POST   | /api/warehouses                           | Create new warehouse                 |
+| GET    | /api/warehouses/{id}                      | Get warehouse details                |
+| PUT    | /api/warehouses/{id}                      | Update warehouse                     |
+| DELETE | /api/warehouses/{id}                      | Delete warehouse                     |
+| GET    | /api/products                             | List all products                    |
+| POST   | /api/products                             | Create new product                   |
+| GET    | /api/products/{id}                        | Get product details                  |
+| PUT    | /api/products/{id}                        | Update product                       |
+| DELETE | /api/products/{id}                        | Delete product                       |
+| GET    | /api/suppliers                            | List all suppliers                   |
+| POST   | /api/suppliers                            | Create new supplier                  |
+| GET    | /api/suppliers/{id}                       | Get supplier details                 |
+| PUT    | /api/suppliers/{id}                       | Update supplier                      |
+| DELETE | /api/suppliers/{id}                       | Delete supplier                      |
+| GET    | /api/inventory                            | List all inventory                   |
+| POST   | /api/inventory                            | Create new inventory record          |
+| GET    | /api/inventory/{id}                       | Get inventory record                 |
+| PUT    | /api/inventory/{id}                       | Update inventory record              |
+| DELETE | /api/inventory/{id}                       | Delete inventory record              |
+| POST   | /api/inventory/transfer                   | Transfer product between warehouses  |
+| GET    | /api/inventory/global-view                | Global inventory view                |
+| GET    | /api/reports/low-stock                    | View all low stock products          |
+| GET    | /api/transactions/report                  | Inventory transaction report         |
+----------------------------------------|--------|--------------------------------------|
 | /api/inventory                            | GET    | List all inventory                   |
 | /api/inventory                            | POST   | Create inventory                     |
 | /api/inventory/{id}                       | GET    | Show inventory                       |
