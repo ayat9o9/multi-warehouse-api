@@ -1,14 +1,13 @@
 
 # 📦 Multi-Warehouse Inventory Management API
 
-A Laravel 12 RESTful API backend for managing products, warehouses, suppliers, and inventory across multiple locations. Includes authentication, low-stock reporting, product transfers, and a clean architecture using Repository and Service layers.
+A RESTful API backend for managing products, warehouses, suppliers, and inventory across multiple locations. Includes authentication, low-stock reporting, product transfers, and a clean architecture using Repository and Service layers.
 
 ---
 
 ## 🚀 Features
 
 - JWT Authentication (Login, Register, Logout, Me)
-- Role-ready structure (RBAC optional)
 - Product, Supplier, Country, Warehouse CRUD
 - Inventory CRUD with transfer between warehouses
 - Global Inventory View
