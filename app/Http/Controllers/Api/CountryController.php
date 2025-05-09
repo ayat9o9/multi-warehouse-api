@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCountryRequest;
 use App\Models\Country;
 use App\Services\Country\CountryService;
 use Illuminate\Http\Request;
@@ -18,14 +19,9 @@ class CountryController extends Controller
         return response()->json($this->service->all(), 200);
     }
 
-    public function store(Request $request)
+    public function store(StoreCountryRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'code' => 'required|string|size:3|unique:countries,code',
-        ]);
-
-        $country = $this->service->create($request->only('name', 'code'));
+        $country = $this->service->create($request->validated());
         return response()->json($country, 201);
     }
 

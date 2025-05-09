@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSupplierRequest;
 use App\Models\Supplier;
 use App\Services\Suppliers\SupplierService;
 use Illuminate\Http\Request;
@@ -17,15 +18,9 @@ class SupplierController extends Controller
         return response()->json($this->service->all(), 200);
     }
 
-    public function store(Request $request)
+    public function store(StoreSupplierRequest $request)
     {
-        $validated = $request->validate([
-            'name'         => 'required|string|max:255',
-            'contact_info' => 'required|string|max:255',
-            'address'      => 'required|string|max:255',
-        ]);
-
-        $supplier = $this->service->create($validated);
+        $supplier = $this->service->create($request->validated());
         return response()->json($supplier, 201);
     }
 

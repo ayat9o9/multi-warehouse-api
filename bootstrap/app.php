@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {})
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command('inventory:check-low-stock')->dailyAt('08:00');
-    $schedule->command('notify:slack-low-stock')->dailyAt('09:00');
+    $schedule->command('inventory:check-low-stock')->dailyAt('00:00');
+    $schedule->command('notify:slack-low-stock')->dailyAt('00:00');
     })
     ->create();

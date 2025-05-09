@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Services\Products\ProductService;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -18,17 +19,9 @@ class ProductController extends Controller
         return response()->json($this->service->all(), 200);
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'sku'         => 'required|string|max:50|unique:products,sku',
-            'status'      => 'required|in:active,inactive',
-            'description' => 'nullable|string',
-            'price'       => 'required|numeric|min:0',
-        ]);
-
-        $product = $this->service->create($validated);
+        $product = $this->service->create($request->validated());
         return response()->json($product, 201);
     }
 

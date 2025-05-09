@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreInventoryRequest;
 use App\Services\Inventory\InventoryService;
 use Illuminate\Http\Request;
 
@@ -17,16 +18,9 @@ class InventoryController extends Controller
         return response()->json($this->service->all());
     }
 
-    public function store(Request $request)
+    public function store(StoreInventoryRequest $request)
     {
-        $data = $request->validate([
-            'product_id'        => 'required|exists:products,id',
-            'warehouse_id'      => 'required|exists:warehouses,id',
-            'quantity'          => 'required|integer',
-            'minimum_quantity'  => 'nullable|integer'
-        ]);
-
-        $inventory = $this->service->create($data);
+        $inventory = $this->service->create($request->validated());
         return response()->json($inventory, 201);
     }
 
