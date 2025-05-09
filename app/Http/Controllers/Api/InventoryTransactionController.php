@@ -29,7 +29,7 @@ class InventoryTransactionController extends Controller
 
     public function report(Request $request)
     {
-        $filters = $request->only(['from', 'to', 'warehouse_id', 'product_id', 'type']);
+        $filters = $request->only(['from', 'to', 'warehouse_id', 'product_id', 'transaction_type']);
         $report = $this->service->getReport($filters);
 
         return response()->json($report);

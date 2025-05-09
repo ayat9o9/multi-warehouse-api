@@ -23,14 +23,14 @@ class InventoryTransactionService
 
         return [
             'total'     => $transactions->count(),
-            'total_in'  => $transactions->where('type', 'in')->sum('quantity'),
-            'total_out' => $transactions->where('type', 'out')->sum('quantity'),
+            'total_in'  => $transactions->where('transaction_type', 'in')->sum('quantity'),
+            'total_out' => $transactions->where('transaction_type', 'out')->sum('quantity'),
             'data'      => $transactions->map(function ($tx) {
                 return [
                     'date'      => $tx->date,
                     'product'   => $tx->product->name ?? 'Unknown',
                     'warehouse' => $tx->warehouse->name ?? 'Unknown',
-                    'type'      => $tx->type,
+                    'transaction_type'      => $tx->type,
                     'quantity'  => $tx->quantity,
                 ];
             })->toArray()
