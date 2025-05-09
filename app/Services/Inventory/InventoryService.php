@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 class InventoryService
 {
-    private const CACHE_KEY_ALL_INVENTORIES = 'products:all';
+    private const CACHE_KEY_ALL_INVENTORIES = 'inventory:global';
     public function __construct(
         protected InventoryRepositoryInterface $repository
     ) {}

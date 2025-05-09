@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class CountryService
 {
-    private const CACHE_KEY_ALL_COUNTRIES = 'products:all';
+    private const CACHE_KEY_ALL_COUNTRIES = 'countries:all';
     public function __construct(
         protected CountryRepositoryInterface $repository
     ) {}
